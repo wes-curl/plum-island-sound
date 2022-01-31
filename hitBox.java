@@ -12,8 +12,9 @@ public class hitBox extends Actor
      * Act - do whatever the hitBox wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public hitBox(){
-        
+    public hitBox(int align, enemySoldier par){
+        this.alignment = align;
+        this.parent = par;
     }
     
     private int alignment;
@@ -25,10 +26,10 @@ public class hitBox extends Actor
         java.util.List<Actor> touching = getIntersectingObjects(null);
         for(Actor a : touching){
             //is it a hurtbox of opposite alignment?
-            /*if((a instanceof hurtBox) && a.alignment != alignment){
+            if((a instanceof hurtBox) && ((hurtBox) a).alignment != alignment){
                 //THEN PERISH
                 parent.killCommand();
-            }   */
+            }   
         }
     }
 }

@@ -53,7 +53,6 @@ public class Blue extends enemySoldier
         } else {
             state = "start-moving";
         }
-        System.out.println(moving);
         if(moving){
             int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
             truePositionX -= speed * direction;

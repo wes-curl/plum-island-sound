@@ -23,9 +23,7 @@ public class Red extends enemySoldier
             truePositionX = getX();
         }
         
-        //handle hitboxes:
-        //put up hitbox
-        //check for collisions with player hurtboxes
+        
         
         if(state == "still"){
             
@@ -55,7 +53,6 @@ public class Red extends enemySoldier
         } else {
             state = "start-moving";
         }
-        System.out.println(moving);
         if(moving){
             int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
             truePositionX -= speed * direction;

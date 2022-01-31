@@ -17,6 +17,8 @@ public class Yellow extends enemySoldier
     private int range = 200;
     GreenfootImage baseImage = null;
     private boolean moving = true;
+    private int xOffset = 55;
+    private hitBox HB = null;
     public void act()
     {
         GreenfootImage image = getImage(); 
@@ -25,6 +27,15 @@ public class Yellow extends enemySoldier
         //set up trueposition
         if(truePositionX == null){
             truePositionX = getX();
+        }
+        
+        //handle hitbox
+        if(HB == null){
+            HB = new hitBox(1, this);
+            HB.getImage().setTransparency(100);
+            world.addObject(HB, getX() + xOffset, getY());
+        } else {
+            HB.setLocation(getX() + xOffset, getY());
         }
         
         if(state == "still"){
@@ -54,7 +65,6 @@ public class Yellow extends enemySoldier
         } else {
             state = "start-moving";
         }
-        System.out.println(moving);
         if(moving){
             int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
             truePositionX -= speed * direction;

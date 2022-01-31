@@ -80,6 +80,16 @@ public class PC extends Actor
         world.playerX = world.playerX + (int)xVelocity;
         //update the delaytable
         updateTable();
+        
+        //if touching anything...
+        java.util.List<Actor> touching = getIntersectingObjects(null);
+        for(Actor a : touching){
+            //is it a hurtbox of alignment 1? (enemy?)
+            if((a instanceof hurtBox) && ((hurtBox) a).alignment != 1){
+                //THEN PERISH
+                System.out.println("ouch!");
+            }   
+        }
     }
     
     //returns true if a key has been released this frame
