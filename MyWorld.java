@@ -24,7 +24,11 @@ public class MyWorld extends World
         super(1000, 600, 1); 
         prepare();
         
-        //makePopups("Text can be really long. Overflow text may be a serious \nissue the program needs to be able to handle.", "This is something else");
+        /*makePopups("I sure love betraying my home country!", 
+                    "Me too!",
+                    "*These must be Confederates.\nYou can tell by how they talk.*",
+                    "I sure am glad there are no union soldiers to stop us\n from attacking this defenseless farmland!",
+                    "So am I!");*/
     }
     
     int boxX = 200;
@@ -81,21 +85,13 @@ public class MyWorld extends World
     private void prepare()
     {
         PC pC = new PC();
-        addObject(pC,280,344);
-        pC.setLocation(500,512);
-        sceneryObject sceneryObject = new sceneryObject();
-        addObject(sceneryObject,922,499);
-        sceneryObject sceneryObject2 = new sceneryObject();
-        addObject(sceneryObject2,238,507);
-        Yellow yellow = new Yellow();
-        addObject(yellow,351,406);
-        pC.setLocation(505,478);
-        removeObject(yellow);
+        addObject(pC,500,512);
+
         Blue blue = new Blue();
-        addObject(blue,127,406);
-        Yellow yellow2 = new Yellow();
-        addObject(yellow2,761,410);
+        addObject(blue,40,460);
         Red red = new Red();
-        addObject(red,267,415);
+        addObject(red,140,460);
+        Yellow yellow = new Yellow();
+        addObject(yellow,240,460);
     }
 }

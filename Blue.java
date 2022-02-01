@@ -8,11 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Blue extends enemySoldier
 {
-    private int speed = 3;
+    private int speed = 2;
     private String state;
-    private int range = 450;
+    private int range = 500;
     GreenfootImage baseImage = null;
     private boolean moving = true;
+    
     public void act()
     {
         GreenfootImage image = getImage(); 
@@ -22,41 +23,46 @@ public class Blue extends enemySoldier
         if(truePositionX == null){
             truePositionX = getX();
         }
-        
-        if(state == "still"){
-            
-        } else if (state == "attacking"){
-            int animateAttackSpeed = 100;
-            moving = false;
-            state = "attack in progress";
-            Thread newThread = new Thread(() -> {
-                animate(new String[]
-                {"Blue-attack1.png","Blue-attack1.png","Blue-attack2.png","Blue-attack2.png","Blue-attack2.png","Blue-reload-t.png",
-                    "Blue-reload1.png","Blue-reload2.png","Blue-reload3.png","Blue-reload2.png",
-                    "Blue-reload1.png","Blue-reload2.png","Blue-reload3.png","Blue-reload2.png",
-                    "Blue-reload1.png","Blue-reload2.png","Blue-reload3.png","Blue-reload2.png"}, 
-                animateAttackSpeed, "start-moving");
-            });
-            newThread.start();
-        } else if (state == "start-moving"){
-            if(truePositionX != null){
-                //which direction is the player in?
-                if(Math.abs((truePositionX - world.playerX) - 500) < range){
-                    state = "attacking";
-                } else {
-                    animateWalking();
-                    moving = true;
+            if(active){
+            if(state == "still"){
+                
+            } else if (state == "attacking"){
+                int animateAttackSpeed = 100;
+                moving = false;
+                state = "attack in progress";
+                Thread newThread = new Thread(() -> {
+                    animate(new String[]
+                    {"blue-attack-1.png","blue-attack-1.png","blue-attack-2.png","blue-attack-2.png","blue-attack-2.png","blue-reload-t.png",
+                        "blue-reload-1.png","blue-reload-2.png","blue-reload-3.png","blue-reload-2.png",
+                        "blue-reload-1.png","blue-reload-2.png","blue-reload-3.png","blue-reload-2.png",
+                        "blue-reload-1.png","blue-reload-2.png","blue-reload-3.png","blue-reload-2.png"}, 
+                    animateAttackSpeed, "start-moving");
+                });
+                newThread.start();
+            } else if (state == "start-moving"){
+                if(truePositionX != null){
+                    //which direction is the player in?
+                    if(Math.abs((truePositionX - world.playerX) - 500) < range){
+                        state = "attacking";
+                    } else {
+                        animateWalking();
+                        moving = true;
+                    }
                 }
+            } else if(state == "animating"){
+                
+            } else {
+                state = "start-moving";
             }
-        } else if(state == "animating"){
+            if(moving){
+                int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
+                truePositionX -= speed * direction;
+            }
             
-        } else {
-            state = "start-moving";
+            
+            setDirection();
         }
-        if(moving){
-            int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
-            truePositionX -= speed * direction;
-        }
+        
         //place in the world
         setLocation(truePositionX - world.playerX, world.floor - (image.getHeight() / 2));
         //hide if on edge
@@ -67,8 +73,6 @@ public class Blue extends enemySoldier
         } else {
             getImage().setTransparency(255);
         }
-        
-        setDirection();
     }
     
     private void setDirection(){
@@ -101,7 +105,7 @@ public class Blue extends enemySoldier
     private void animateWalking(){
         int animateMoveSpeed = 200;
         Thread newThread = new Thread(() -> {
-            animate(new String[]{"Blue-walk1.png","Blue-walk2.png","Blue-walk1.png","Blue-walk3.png"}, animateMoveSpeed, "start-moving");
+            animate(new String[]{"blue-walk-1.png","blue-walk-2.png","blue-walk-1.png","blue-walk-3.png"}, animateMoveSpeed, "start-moving");
         });
         newThread.start();
     }

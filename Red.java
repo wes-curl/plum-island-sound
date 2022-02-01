@@ -10,7 +10,7 @@ public class Red extends enemySoldier
 {
     private int speed = 3;
     private String state;
-    private int range = 250;
+    private int range = 400;
     GreenfootImage baseImage = null;
     private boolean moving = true;
     public void act()
@@ -24,39 +24,48 @@ public class Red extends enemySoldier
         }
         
         
-        
-        if(state == "still"){
-            
-        } else if (state == "attacking"){
-            int animateAttackSpeed = 100;
-            moving = false;
-            state = "attack in progress";
-            Thread newThread = new Thread(() -> {
-                animate(new String[]
-                {"Red-attack1.png","Red-attack2.png","Red-attack3.png","Red-attack4.png","Red-attack5.png",
-                    "Red-idle.png","Red-idle.png","Red-idle.png","Red-idle.png"}, 
-                animateAttackSpeed, "start-moving");
-            });
-            newThread.start();
-        } else if (state == "start-moving"){
-            if(truePositionX != null){
-                //which direction is the player in?
-                if(Math.abs((truePositionX - world.playerX) - 500) < range){
-                    state = "attacking";
-                } else {
-                    animateWalking();
-                    moving = true;
+            if(active){
+            if(state == "still"){
+                
+            } else if (state == "attacking"){
+                int animateAttackSpeed = 100;
+                moving = false;
+                state = "attack in progress";
+                Thread newThread = new Thread(() -> {
+                    animate(new String[]
+                    {"red-attack-1.png","red-attack-2.png","red-attack-3.png","red-attack-4.png"}, 
+                    animateAttackSpeed, "None");
+                    throwGrenade();
+                    animate(new String[]
+                    {"red-attack-5.png",
+                        "red-idle.png","red-idle.png","red-idle.png","red-idle.png"},
+                        animateAttackSpeed, "start-moving");
+                });
+                newThread.start();
+            } else if (state == "start-moving"){
+                if(truePositionX != null){
+                    //which direction is the player in?
+                    if(Math.abs((truePositionX - world.playerX) - 500) < range){
+                        state = "attacking";
+                    } else {
+                        animateWalking();
+                        moving = true;
+                    }
                 }
+            } else if(state == "animating"){
+                
+            } else {
+                state = "start-moving";
             }
-        } else if(state == "animating"){
+            if(moving){
+                int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
+                truePositionX -= speed * direction;
+            }
             
-        } else {
-            state = "start-moving";
+            
+            setDirection();
         }
-        if(moving){
-            int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
-            truePositionX -= speed * direction;
-        }
+        
         //place in the world
         setLocation(truePositionX - world.playerX, world.floor - (image.getHeight() / 2));
         //hide if on edge
@@ -67,8 +76,6 @@ public class Red extends enemySoldier
         } else {
             getImage().setTransparency(255);
         }
-        
-        setDirection();
     }
     
     private void setDirection(){
@@ -101,7 +108,7 @@ public class Red extends enemySoldier
     private void animateWalking(){
         int animateMoveSpeed = 200;
         Thread newThread = new Thread(() -> {
-            animate(new String[]{"Red-walk1.png","Red-walk2.png","Red-walk1.png","Red-walk3.png"}, animateMoveSpeed, "start-moving");
+            animate(new String[]{"red-walk-1.png","red-walk-2.png","red-walk-1.png","red-walk-3.png"}, animateMoveSpeed, "start-moving");
         });
         newThread.start();
     }
@@ -117,6 +124,13 @@ public class Red extends enemySoldier
             }
         }
         state = nextState;
+    }
+    
+    private void throwGrenade(){
+        MyWorld world = (MyWorld)getWorld();
+        int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
+        grenade G = new grenade(direction * -8, 0);
+        world.addObject(G, getX(), getY() - 90);
     }
 }
 

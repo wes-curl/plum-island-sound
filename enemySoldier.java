@@ -12,7 +12,15 @@ public class enemySoldier extends notPC
      * Act - do whatever the enemySoldier wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
+    public boolean active = true;
     public void killCommand(){
         
     }
+    
+    public void flip(){
+        GreenfootImage image = new GreenfootImage(getImage());
+        image.mirrorHorizontally();
+        setImage(image);
+    }
+
 }
