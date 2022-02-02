@@ -89,6 +89,17 @@ public class PC extends Actor
                 //THEN PERISH
                 System.out.println("ouch!");
             }   
+            if(a instanceof Barrier){
+               if (Greenfoot.isKeyDown("right"))
+               {
+                   //System.out.println("barrier -> going right");
+                   setLocation(getX() - 5, getY());
+               }
+               else if (Greenfoot.isKeyDown("left"))
+               {
+                   setLocation(getX() + 5, getY());
+               }
+            } 
         }
     }
     

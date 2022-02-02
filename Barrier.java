@@ -31,8 +31,12 @@ public class Barrier extends notPC
         MyWorld world = (MyWorld)getWorld();
         //place in the world
         GreenfootImage image = getImage(); 
-        
-        
+        setLocation(truePositionX - world.playerX, getY());
+        // if (!isTouching(PC.class)){
+         
+        // }
+        // else{
+        // }
         //hide if on edge
         if (Greenfoot.mouseClicked(this))
         {   
