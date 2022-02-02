@@ -24,7 +24,7 @@ public class PC extends Actor
         int groundHeight = ((MyWorld) getWorld()).floor - getImage().getHeight() / 2;
         // handles dissmissing popups
         if(getKeyUp("enter")){
-            ((MyWorld) getWorld()).dismiss();
+            ((MyWorld) getWorld()).makeNextPopup();
         } 
         // handles player movement left/right
         //get user input

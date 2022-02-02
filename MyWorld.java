@@ -15,7 +15,7 @@ public class MyWorld extends World
      * Constructor for objects of class MyWorld.
      * 
      */
-    GreenfootImage textArea;
+    DialogBox textArea;
     public int playerX = 0;
     public int floor = 512;
     public MyWorld()
@@ -24,15 +24,15 @@ public class MyWorld extends World
         super(1000, 600, 1); 
         prepare();
         
-        /*makePopups("I sure love betraying my home country!", 
+        makePopups("I sure love betraying my home country!", 
                     "Me too!",
-                    "*These must be Confederates.\nYou can tell by how they talk.*",
+                    "*These must be Confederates.\nYou can tell by the way they talk.*",
                     "I sure am glad there are no union soldiers to stop us\n from attacking this defenseless farmland!",
-                    "So am I!");*/
+                    "So am I!");
     }
     
-    int boxX = 200;
-    int boxY = 30;
+    int boxX = 500;
+    int boxY = 100;
     
     int textX = 210;
     int textY = 35;
@@ -50,31 +50,20 @@ public class MyWorld extends World
     // shows a popup text box
     public void makeNextPopup()
     {
-        String text = popupQueue.remove();
-        dismiss();
-        //make the text into an image
-        GreenfootImage textImage = new GreenfootImage(text, 28, null, null);
-        //make the text background be a thing
-        GreenfootImage textBackground = new GreenfootImage("text-background.png");
         
-        //copy the background to be restored after
-        textArea = new GreenfootImage(textBackground);
-        textArea.drawImage(getBackground(), -boxX, -boxY);
-        //draw the text on the background
-        getBackground().drawImage(textBackground, boxX, boxY);
-        getBackground().drawImage(textImage, textX, textY);
-    }
- 
-    // method to remove text image
-    public void dismiss()
-    {
+        //get rid of any previous text
         if (textArea != null){
-            //puts the beackground back on top
-            getBackground().drawImage(textArea, boxX, boxY);
-            //if there is something else to display, display it
-            if(popupQueue.peek() != null){
-                makeNextPopup();
-            }
+            textArea.destroy(); 
+        }
+        //what does it say?
+        String text = popupQueue.poll();
+        if(text != null){
+            //make a text-holder
+            textArea = new DialogBox();
+            addObject(textArea, boxX, boxY);
+            textArea.setUpDialogBox(text); 
+        } else {
+            enemySoldier.active = true;
         }
     }
     
