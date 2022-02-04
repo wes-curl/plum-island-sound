@@ -13,8 +13,24 @@ public class hurtBox extends Actor
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public int alignment;
+    
+    public hurtBox(int x, int y, int align){
+        GreenfootImage img = new GreenfootImage(x,y);
+        img.setColor(Color.RED);
+        img.fill();
+        setImage(img);
+        this.alignment = align;
+    }
+    
+    public hurtBox(int r, int align){
+        GreenfootImage img = new GreenfootImage(1,1);
+        img.setColor(Color.RED);
+        img.fill();
+        setImage(img);
+        this.alignment = align;
+    }
+    
     public void act()
     {
-        // Add your action code here.
     }
 }

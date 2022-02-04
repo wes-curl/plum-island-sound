@@ -39,7 +39,7 @@ public class Yellow extends enemySoldier
             HB.setLocation(getX(), getY());
         }
         
-            if(active){
+        if(((MyWorld)getWorld()).active){
             if(state == "still"){
                 
             } else if (state == "attacking"){

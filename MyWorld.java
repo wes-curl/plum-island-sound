@@ -18,17 +18,21 @@ public class MyWorld extends World
     DialogBox textArea;
     public int playerX = 0;
     public int floor = 512;
+    
+    //are things moving around?
+    public boolean active = true;
+    
     public MyWorld()
     {    
         // Create a new world with 1000x600 cells with a cell size of 1x1 pixels.
         super(1000, 600, 1); 
         prepare();
         
-        makePopups("I sure love betraying my home country!", 
+        /*makePopups("I sure love betraying my home country!", 
                     "Me too!",
                     "*These must be Confederates.\nYou can tell by the way they talk.*",
                     "I sure am glad there are no union soldiers to stop us\n from attacking this defenseless farmland!",
-                    "So am I!");
+                    "So am I!");*/
     }
     
     int boxX = 500;
@@ -62,8 +66,6 @@ public class MyWorld extends World
             textArea = new DialogBox();
             addObject(textArea, boxX, boxY);
             textArea.setUpDialogBox(text); 
-        } else {
-            enemySoldier.active = true;
         }
     }
     
@@ -82,5 +84,13 @@ public class MyWorld extends World
         addObject(red,140,460);
         Yellow yellow = new Yellow();
         addObject(yellow,240,460);
+        removeObject(yellow);
+        removeObject(red);
+        removeObject(blue);
+        Red red2 = new Red();
+        addObject(red2,82,412);
+        removeObject(red2);
+        Blue blue2 = new Blue();
+        addObject(blue2,92,436);
     }
 }

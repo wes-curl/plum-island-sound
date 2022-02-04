@@ -13,6 +13,7 @@ public class Blue extends enemySoldier
     private int range = 500;
     GreenfootImage baseImage = null;
     private boolean moving = true;
+    private hitBox HB = null;
     
     public void act()
     {
@@ -23,7 +24,17 @@ public class Blue extends enemySoldier
         if(truePositionX == null){
             truePositionX = getX();
         }
-            if(active){
+        
+        //handle hitbox
+        if(HB == null){
+            HB = new hitBox(1, this);
+            HB.getImage().setTransparency(100);
+            world.addObject(HB, getX(), getY());
+        } else {
+            HB.setLocation(getX(), getY());
+        }
+        
+        if(((MyWorld)getWorld()).active){
             if(state == "still"){
                 
             } else if (state == "attacking"){
@@ -32,8 +43,10 @@ public class Blue extends enemySoldier
                 state = "attack in progress";
                 Thread newThread = new Thread(() -> {
                     animate(new String[]
-                    {"blue-attack-1.png","blue-attack-1.png","blue-attack-2.png","blue-attack-2.png","blue-attack-2.png","blue-reload-t.png",
-                        "blue-reload-1.png","blue-reload-2.png","blue-reload-3.png","blue-reload-2.png",
+                    {"blue-attack-1.png","blue-attack-1.png","blue-attack-2.png","blue-attack-2.png","blue-attack-2.png"}, 
+                    animateAttackSpeed, "none");
+                    shootBullet();
+                    animate(new String[] {"blue-reload-t.png","blue-reload-1.png","blue-reload-2.png","blue-reload-3.png","blue-reload-2.png",
                         "blue-reload-1.png","blue-reload-2.png","blue-reload-3.png","blue-reload-2.png",
                         "blue-reload-1.png","blue-reload-2.png","blue-reload-3.png","blue-reload-2.png"}, 
                     animateAttackSpeed, "start-moving");
@@ -121,5 +134,13 @@ public class Blue extends enemySoldier
             }
         }
         state = nextState;
+    }
+    
+    private void shootBullet(){
+        MyWorld world = (MyWorld)getWorld();
+        int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
+        Bullet B = new Bullet(direction * -8, 1);
+        world.addObject(B, getX() + (direction * -60), getY() - 70);
+        B.truePositionX = truePositionX + (direction * -60);
     }
 }

@@ -13,6 +13,7 @@ public class Red extends enemySoldier
     private int range = 400;
     GreenfootImage baseImage = null;
     private boolean moving = true;
+    private hitBox HB = null;
     public void act()
     {
         GreenfootImage image = getImage(); 
@@ -23,8 +24,17 @@ public class Red extends enemySoldier
             truePositionX = getX();
         }
         
+        //handle hitbox
+        if(HB == null){
+            HB = new hitBox(1, this);
+            HB.getImage().setTransparency(100);
+            world.addObject(HB, getX(), world.floor - 91);
+        } else {
+            HB.setLocation(getX(), world.floor - 91);
+        }
+
         
-            if(active){
+        if(((MyWorld)getWorld()).active){
             if(state == "still"){
                 
             } else if (state == "attacking"){
@@ -131,6 +141,7 @@ public class Red extends enemySoldier
         int direction = (int) Math.signum((truePositionX - world.playerX) - 500);
         grenade G = new grenade(direction * -8, 0);
         world.addObject(G, getX(), getY() - 90);
+        G.truePositionX = truePositionX;
     }
 }
 

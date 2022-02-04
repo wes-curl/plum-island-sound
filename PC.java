@@ -28,67 +28,59 @@ public class PC extends Actor
         } 
         // handles player movement left/right
         //get user input
-        float speed = 1.5f;
-        float gravity = 1.2f;
-        if(Greenfoot.isKeyDown("left")){
-            xVelocity -= speed; 
-            if(xVelocity < -10){
-                xVelocity = -10;
-            }
-        } else if(Greenfoot.isKeyDown("right")){
-            xVelocity += speed;
-            if(xVelocity > 10){
-                xVelocity = 10;
-            }
-        } else {
-            if(xVelocity > speed){
-                xVelocity -= speed;
-            } else if(xVelocity < -speed){
+        if(((MyWorld) getWorld()).active){
+            float speed = 1.5f;
+            float gravity = 1.2f;
+            if(Greenfoot.isKeyDown("left")){
+                xVelocity -= speed; 
+                if(xVelocity < -10){
+                    xVelocity = -10;
+                }
+            } else if(Greenfoot.isKeyDown("right")){
                 xVelocity += speed;
+                if(xVelocity > 10){
+                    xVelocity = 10;
+                }
             } else {
-                xVelocity = 0;
+                if(xVelocity > speed){
+                    xVelocity -= speed;
+                } else if(xVelocity < -speed){
+                    xVelocity += speed;
+                } else {
+                    xVelocity = 0;
+                }
             }
-        }
-        
-        //apply gravity
-        if(getY() < groundHeight){
-            yVelocity += gravity;
-        } else {
-            timesJumped = 0;
-            dashes = 2;
-            yVelocity = 0;
-        }
-        
-        float jumpPower = 22f;
-        int maxJumps = 2;
-        if(getKeyDown("space")){
-            if(timesJumped < maxJumps){
-                yVelocity = -jumpPower;
-                timesJumped++;
+            
+            //apply gravity
+            if(getY() < groundHeight){
+                yVelocity += gravity;
+            } else {
+                timesJumped = 0;
+                dashes = 2;
+                yVelocity = 0;
             }
-        }
-        
-        // move player
-        setLocation(500, getY() + (int)yVelocity);
-        // prevent ground clipping
-        if(getY() > groundHeight){
-            setLocation(getX(), groundHeight);
-        }
-        
-        //move the world
-        MyWorld world = (MyWorld) getWorld();
-        world.playerX = world.playerX + (int)xVelocity;
-        //update the delaytable
-        updateTable();
-        
-        //if touching anything...
-        java.util.List<Actor> touching = getIntersectingObjects(null);
-        for(Actor a : touching){
-            //is it a hurtbox of alignment 1? (enemy?)
-            if((a instanceof hurtBox) && ((hurtBox) a).alignment != 1){
-                //THEN PERISH
-                System.out.println("ouch!");
-            }   
+            
+            float jumpPower = 22f;
+            int maxJumps = 2;
+            if(getKeyDown("space")){
+                if(timesJumped < maxJumps){
+                    yVelocity = -jumpPower;
+                    timesJumped++;
+                }
+            }
+            
+            // move player
+            setLocation(500, getY() + (int)yVelocity);
+            // prevent ground clipping
+            if(getY() > groundHeight){
+                setLocation(getX(), groundHeight);
+            }
+            
+            //move the world
+            MyWorld world = (MyWorld) getWorld();
+            world.playerX = world.playerX + (int)xVelocity;
+            //update the delaytable
+            updateTable();
         }
     }
     
