@@ -68,21 +68,29 @@ public class PC extends Actor
                     timesJumped++;
                 }
             }
-            
-            // move player
-            setLocation(500, getY() + (int)yVelocity);
-            // prevent ground clipping
-            if(getY() > groundHeight){
-                setLocation(getX(), groundHeight);
-            }
-            
-            //move the world
-            MyWorld world = (MyWorld) getWorld();
-            world.playerX = world.playerX + (int)xVelocity;
-            //update the delaytable
-            updateTable();
+        
+        //if touching anything...
+        java.util.List<Actor> touching = getIntersectingObjects(null);
+        for(Actor a : touching){
+            //is it a hurtbox of alignment 1? (enemy?)
+            if((a instanceof hurtBox) && ((hurtBox) a).alignment != 1){
+                //THEN PERISH
+                System.out.println("ouch!");
+            }   
+            if(a instanceof Barrier){
+               if (Greenfoot.isKeyDown("right"))
+               {
+                   //System.out.println("barrier -> going right");
+                   setLocation(getX() - 5, getY());
+               }
+               else if (Greenfoot.isKeyDown("left"))
+               {
+                   setLocation(getX() + 5, getY());
+               }
+            } 
         }
     }
+}
     
     //returns true if a key has been released this frame
     Hashtable<String, Boolean> keyDownTable = new Hashtable<String, Boolean>();
